@@ -11,107 +11,112 @@ using sampleentity.Entity;
 
 namespace sample18082016.Controllers
 {
-    public class ProductsController : Controller
+    public class CustomersController : Controller
     {
         private ProductTestDBEntities1 db = new ProductTestDBEntities1();
 
-        // GET: Products
+        // GET: Customers
         public async Task<ActionResult> Index()
         {
-            return View(await db.Products.ToListAsync());
+            var customers = db.Customers.Include(c => c.Country);
+            return View(await customers.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Customers/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
-            if (product == null)
+            Customer customer = await db.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(customer);
         }
 
-        // GET: Products/Create
+        // GET: Customers/Create
         public ActionResult Create()
         {
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,ProductName,ProductCategory,Price")] Product product)
+        public async Task<ActionResult> Create([Bind(Include = "CustomerID,CustomerName,CountryID")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
+                db.Customers.Add(customer);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(product);
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName", customer.CountryID);
+            return View(customer);
         }
 
-        // GET: Products/Edit/5
+        // GET: Customers/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
-            if (product == null)
+            Customer customer = await db.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName", customer.CountryID);
+            return View(customer);
         }
 
-        // POST: Products/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProductName,ProductCategory,Price")] Product product)
+        public async Task<ActionResult> Edit([Bind(Include = "CustomerID,CustomerName,CountryID")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                db.Entry(customer).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(product);
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName", customer.CountryID);
+            return View(customer);
         }
 
-        // GET: Products/Delete/5
+        // GET: Customers/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
-            if (product == null)
+            Customer customer = await db.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(customer);
         }
 
-        // POST: Products/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Product product = await db.Products.FindAsync(id);
-            db.Products.Remove(product);
+            Customer customer = await db.Customers.FindAsync(id);
+            db.Customers.Remove(customer);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

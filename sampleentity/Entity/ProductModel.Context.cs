@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace sample18082016.Entity
+namespace sampleentity.Entity
 {
     using System;
     using System.Data.Entity;
@@ -26,5 +26,7 @@ namespace sample18082016.Entity
         }
     
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
     }
 }

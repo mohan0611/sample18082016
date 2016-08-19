@@ -7,16 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace sample18082016.Entity
+namespace sampleentity.Entity
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class Customer
     {
-        public int Id { get; set; }
-        public string ProductName { get; set; }
-        public string ProductCategory { get; set; }
-        public Nullable<decimal> Price { get; set; }
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public Nullable<int> CountryID { get; set; }
+    
+        public virtual Country Country { get; set; }
     }
 }

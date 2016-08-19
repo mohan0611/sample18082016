@@ -18,7 +18,6 @@ namespace sample18082016.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
@@ -26,6 +25,13 @@ namespace sample18082016.Controllers
         {
             ViewBag.Message = "Your contact page.";
            
+            return View();
+        }
+
+        public ActionResult Product()
+        {
+            ViewBag.Message = "Your product page.";
+
             return View();
         }
     }

@@ -6,6 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ae5b3bb8795e48288d7b4c11c9d7db79" Name="Diagram1">
         <EntityTypeShape EntityType="ProductTestDBModel.Product" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductTestDBModel.Country" Width="1.5" PointX="3.375" PointY="1" />
+        <EntityTypeShape EntityType="ProductTestDBModel.Customer" Width="1.5" PointX="5.625" PointY="0.875" />
+        <AssociationConnector Association="ProductTestDBModel.FK__Customer__Countr__38996AB5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
