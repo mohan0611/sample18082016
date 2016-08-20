@@ -19,6 +19,7 @@
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="CustomerName" Type="varchar" MaxLength="50" />
           <Property Name="CountryID" Type="int" />
+          <Property Name="IsPrimaryCustomer" Type="bit" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -88,6 +89,7 @@
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CountryID" Type="Int32" />
           <NavigationProperty Name="Country" Relationship="ProductTestDBModel.FK__Customer__Countr__38996AB5" FromRole="Customer" ToRole="Country" />
+          <Property Name="IsPrimaryCustomer" Type="Boolean" />
         </EntityType>
         <Association Name="FK__Customer__Countr__38996AB5">
           <End Type="ProductTestDBModel.Country" Role="Country" Multiplicity="0..1" />
@@ -128,6 +130,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="ProductTestDBModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="IsPrimaryCustomer" ColumnName="IsPrimaryCustomer" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />

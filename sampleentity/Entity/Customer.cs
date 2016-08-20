@@ -11,12 +11,16 @@ namespace sampleentity.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Customer
     {
         public int CustomerID { get; set; }
         public string CustomerName { get; set; }
         public Nullable<int> CountryID { get; set; }
+
+        [Display(Name = "Primary Customer", Description = "To identity whether customer is primary or not")]
+        public Nullable<bool> IsPrimaryCustomer { get; set; }
     
         public virtual Country Country { get; set; }
     }

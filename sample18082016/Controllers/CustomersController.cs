@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using PagedList;
 using System.Web;
 using System.Web.Mvc;
 using sampleentity.Entity;
@@ -16,10 +17,21 @@ namespace sample18082016.Controllers
         private ProductTestDBEntities1 db = new ProductTestDBEntities1();
 
         // GET: Customers
-        public async Task<ActionResult> Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+
+            ViewBag.CurrentSort = sortOrder;
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.CurrentFilter = searchString;
+
+
             var customers = db.Customers.Include(c => c.Country);
-            return View(await customers.ToListAsync());
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            //return View(await customers.ToListAsync());
+            return View(customers.OrderBy(s => s.CustomerID).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Customers/Details/5
@@ -83,7 +95,7 @@ namespace sample18082016.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CustomerID,CustomerName,CountryID")] Customer customer)
+        public async Task<ActionResult> Edit([Bind(Include = "CustomerID,CustomerName,CountryID,IsPrimaryCustomer")] Customer customer)
         {
             if (ModelState.IsValid)
             {
