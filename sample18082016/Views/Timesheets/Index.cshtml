@@ -6,52 +6,74 @@
     int intCount = 0;
 }
 
+@if (ViewBag.ErrorMessage != null)
+{
+    <br />
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+}
+
 @using (Html.BeginForm())
 {
 
     <br />
 
-    <div class="container">
+    <div class="table-responsive">
 
         <table id="timesheettable" class="table table-bordered">
-            <tr>
-                <th>
-                    Project Name
-                </th>
-                <th>
-                    Activity Name
-                </th>
-                <th>
-                    Day 1
-                </th>
-                <th>
-                    Day 2
-                </th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>
+                        Project Name
+                    </th>
+                    <th>
+                        Activity Name
+                    </th>
+                    <th>
+                        Day 1
+                    </th>
+                    <th>
+                        Day 2
+                    </th>
+                </tr>
+            </thead>
             @for (int i = 0; i < Model.Count; i++)
-            {
-                intCount++;
+                {
+                    intCount++;
                 <tr>
                     <td>
-                        @Html.TextBoxFor(modelItem => modelItem[i].ProjectName)
+                        @Html.HiddenFor(modelItem => modelItem[i].TimesheetId)
+                        @Html.EditorFor(modelItem => modelItem[i].ProjectName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelitem => modelitem[i].ProjectName, "", new { @class = "text-danger" })
                         @*@Html.TextBoxFor(modelItem => item.ProjectName, new { htmlAttributes = new { name = "ProjectName" } })*@
                     </td>
                     <td>
-                        @Html.TextBoxFor(modelItem => modelItem[i].ActivityName)
+                        @Html.EditorFor(modelItem => modelItem[i].ActivityName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelitem => modelitem[i].ActivityName, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.TextBoxFor(modelItem => modelItem[i].day1)
+                        @Html.EditorFor(modelItem => modelItem[i].day1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelitem => modelitem[i].day1, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.TextBoxFor(modelItem => modelItem[i].day2)
+                        @Html.EditorFor(modelItem => modelItem[i].day2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelitem => modelitem[i].day2, "", new { @class = "text-danger" })
                     </td>
-
                 </tr>
             }
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Total</td>
+                    <td><input type="text" name="day1total" class="form-control" /></td>
+                    <td><input type="text" name="day2total" class="form-control" /></td>
+                </tr>
+            </tfoot>
 
         </table>
 
-        <input id="totalNumRows" type="text" value="@intCount" />
+        <input id="totalNumRows" type="text" value="@(intCount-1)" />
 
         <button type="button" id="addnewrow" class="btn btn-primary">Add new row</button>
 
@@ -60,16 +82,61 @@
     </div>
 }
 
+@*<script id="new_row">
+        <tr><td></td><td></td><td></td><td></td></tr>
+    </script>*@
 
 @section Scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script type="text/javascript">
+
         $(document).ready(function () {
             $("#addnewrow").click(function () {
-                console.log("Add the new row");
+                //var newRow = $("#new_row").html();
+                var i = 1;
+                console.log($('[name="[1].ProjectName"]').val());
+
+                var intCount = eval($("#totalNumRows").val()) + 1;
+                console.log("Add the new row " + intCount);
                 //$("#timesheettable").hide();
-                $("#timesheettable").append("<tr><td></td><td></td><td></td><td></td></tr>");
+
+                var tableRow = "<td><input name='[" + intCount + "].ProjectName' type='text' class='form-control'></td>"
+                var tableRow = tableRow + "<td><input name='[" + intCount + "].ActivityName' type='text' class='form-control'></td>"
+                var tableRow = tableRow + "<td><input name='[" + intCount + "].day1' type='text'  class='form-control'></td>"
+                var tableRow = tableRow + "<td><input name='[" + intCount + "].day2' type='text'  class='form-control'></td>"
+
+                $("#timesheettable").append("<tr>" + tableRow + "</tr>");
+                //$("#timesheettable").append(newRow);
+                $("#totalNumRows").val(intCount);
             });
+
+
+            $("input[name$='day1']").keyup(function () {
+                calculateSum();
+            });
+
+
+            //To calculate the row total
+            //  $("input[name$='letter']").val("a letter");
+
+            calculateSum();
+
         });
+
+        function calculateSum() {
+            var sum = 0;
+            //iterate through each textboxes and add the values
+            $("input[name$='day1']").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+            $("input[name='day1total']").val(sum.toFixed(2));
+        }
+
     </script>
+
 }
