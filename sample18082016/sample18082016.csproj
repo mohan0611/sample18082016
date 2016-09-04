@@ -341,6 +341,7 @@
     <Content Include="Views\Testpartialview\Index.cshtml" />
     <Content Include="Views\Testpartialview\_CreateEmployee.cshtml" />
     <Content Include="Views\Testpartialview\_ViewEmployee.cshtml" />
+    <Content Include="Views\Testpartialview\_addNewEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

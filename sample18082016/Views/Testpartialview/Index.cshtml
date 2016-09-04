@@ -7,9 +7,9 @@
 <h2>Index</h2>
 
 
-<button id="addemployee" type="button" class="btn btn-info">Add new employee</button>
+@*<button id="addemployee" type="button" class="btn btn-info">Add new employee</button>
 
-<button id="viewemployee" type="button" class="btn btn-info">View employee</button>
+<button id="viewemployee" type="button" class="btn btn-info">View employee</button>*@
 
 
 <br />
@@ -19,8 +19,6 @@
 <div id="dialog-add">
     Add
 </div>
-
-<hr />
 
 <br />
 
@@ -56,30 +54,63 @@
             //    $("#dialog-edit").dialog('open');
             //    return false;
             //});
-            $('#addemployee').click(function () {
+
+
+            
+            $('#addemployee').click(addEmployee());
+
+            $('#viewemployee').click(viewEmployee());
+
+
+            function addEmployee() {
                 $.ajax({
                     type: 'POST',
                     url: '/Testpartialview/Create',
                     //data: objectToPass,
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                         $('#dialog-add').html(data);
                     }
                 });
-            });
+            };
 
-            
-            $('#viewemployee').click(function () {
+
+            function viewEmployee() {
                 $.ajax({
                     type: 'POST',
                     url: '/Testpartialview/View',
                     //data: objectToPass,
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                         $('#dialog-view').html(data);
                     }
                 });
-            });
+            };
+            
+
+            addEmployee();
+
+
+            viewEmployee();
+
+
+
+
+
+            //$('#viewemployee').click(function () {
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: '/Testpartialview/View',
+            //        //data: objectToPass,
+            //        success: function (data) {
+            //            console.log(data);
+            //            $('#dialog-view').html(data);
+            //        }
+            //    });
+            //});
+
+
+
         });
     </script>
 }

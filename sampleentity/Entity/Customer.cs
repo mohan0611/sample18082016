@@ -16,6 +16,8 @@ namespace sampleentity.Entity
     public partial class Customer
     {
         public int CustomerID { get; set; }
+
+        [Required]
         public string CustomerName { get; set; }
         public Nullable<int> CountryID { get; set; }
 

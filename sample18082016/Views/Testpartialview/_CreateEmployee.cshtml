@@ -39,8 +39,9 @@
         }
 
     </table>
-    <br />
 
+    <button id="addemployee" type="button" class="btn btn-info">Add New Customer</button>
+    <button id="refreshemployee" type="button" class="btn btn-info">Refresh</button>
 
     <div id="myPager">
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
@@ -48,10 +49,37 @@
         @Html.PagedListPager(Model, page => Url.Action("Create",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-        <br />
     </div>
 </div>
 
+
+
+<!-- Modal -->
+@*<div id="AddUserForm"></div>*@
+
+
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="modal-dialog">
+        <form action="/Testpartialview/Addnew" enctype="multipart/form-data" method="post">
+            <!--  Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div id="addnewemployeedivmodal" class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="addnewemployee" class="btn btn-primary" value="Add" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 
 
@@ -68,5 +96,68 @@
             });
             return false;
         });
+
+
+
+        //Refresh employee  list
+        $('#refreshemployee').click(function () {
+            refreshemployee();
+            return false;
+        });
+
+
+        function refreshemployee() {
+            $.ajax({
+                type: 'POST',
+                url: '/Testpartialview/Create',
+                //data: objectToPass,
+                success: function (data) {
+                    $('#create_employee').html(data);
+                }
+            });
+        };
+
+        //Add employee  list
+        $('#addemployee').click(function () {
+            console.log("Add new employee");
+            //Show the add new employee modal  window
+            $.ajax({
+                type: 'POST',
+                url: '/Testpartialview/Addnew',
+                //data: objectToPass,
+                success: function (data) {
+                    //console.log(data);
+                    $('#addnewemployeedivmodal').html(data);
+                    $('#myModal').modal('show');
+                }
+            });
+        });
+
+
+        $('#addnewemployee').click(function () {
+            console.log("to add new employee");
+            console.log($("#CustomerID").val());
+            $.ajax(
+            {
+                type: "POST", //HTTP POST Method
+                url: "/Testpartialview/Addnew1", // Controller/View
+                data: { //Passing data
+                    CustomerID: $("#CustomerID").val(), //Reading text box values using Jquery
+                    CustomerName: $("#CustomerName").val(),
+                    CountryID: $("CountryID").val()
+                },
+                success: function (data, textStatus, xhr) {
+                    $('#myModal').modal('toggle');
+                    alert("Data added successful");
+                    refreshemployee();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Error in data new");
+                }
+            });
+
+        });
+
+
     });
 </script>

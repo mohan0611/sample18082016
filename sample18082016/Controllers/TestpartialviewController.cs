@@ -20,6 +20,23 @@ namespace sample18082016.Controllers
             return View();
         }
 
+        //Add new employee
+        public ActionResult Addnew()
+        {
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName");
+            var obj = new Customer();
+            return PartialView("_addNewEmployee", obj);
+        }
+
+
+        public ActionResult Addnew1(Customer obj)
+        {
+            db.Customers.Add(obj);
+            db.SaveChanges();
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName");
+            //var obj = new Customer();
+            return PartialView("_addNewEmployee", obj);
+        }
 
         public ActionResult Create(string sortOrder, string currentFilter, string searchString, int? page)
         {
