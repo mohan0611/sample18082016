@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Country List</h2>
+<div class="table table-bordered">
+    <table id="country"></table>
+    <div id="pager"></div>
+</div>
+
+@section Scripts
+{
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/i18n/grid.locale-en.js"></script>
+<script src="~/Scripts/jquery.jqGrid.js"></script>
+<script src="~/Scripts/app/testjqgrid.js"></script>
+
+
+}

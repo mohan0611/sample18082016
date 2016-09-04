@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<button id="addemployee" type="button" class="btn btn-info">Add new employee</button>
+
+<button id="viewemployee" type="button" class="btn btn-info">View employee</button>
+
+
+<br />
+
+
+
+<div id="dialog-add">
+    Add
+</div>
+
+<hr />
+
+<br />
+
+<div id="dialog-view">
+    View
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            //$("#ADDEmployee").live("click", function (e) {
+            //    var url = $(this).attr('href');
+            //    $("#dialog-edit").dialog({
+            //        title: 'Add New Employee',
+            //        autoOpen: false,
+            //        resizable: false,
+            //        height: 455,
+            //        width: 550,
+            //        show: { effect: 'drop', direction: "up" },
+            //        modal: true,
+            //        draggable: true,
+            //        open: function (event, ui) {
+            //            $(this).load(url);
+
+            //        },
+            //        close: function (event, ui) {
+            //            $(this).dialog('close');
+            //        }
+            //    });
+
+            //    $("#dialog-edit").dialog('open');
+            //    return false;
+            //});
+            $('#addemployee').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Testpartialview/Create',
+                    //data: objectToPass,
+                    success: function (data) {
+                        console.log(data);
+                        $('#dialog-add').html(data);
+                    }
+                });
+            });
+
+            
+            $('#viewemployee').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Testpartialview/View',
+                    //data: objectToPass,
+                    success: function (data) {
+                        console.log(data);
+                        $('#dialog-view').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+}
