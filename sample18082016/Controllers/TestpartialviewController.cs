@@ -29,10 +29,27 @@ namespace sample18082016.Controllers
         }
 
 
+
         public ActionResult Addnew1(Customer obj)
         {
-            db.Customers.Add(obj);
-            db.SaveChanges();
+            if (obj.CustomerID > 0)
+            {
+                db.Entry(obj).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                db.Customers.Add(obj);
+                db.SaveChanges();
+            }
+            ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName");
+            //var obj = new Customer();
+            return PartialView("_addNewEmployee", obj);
+        }
+
+        public ActionResult edit(int CustomerID)
+        {
+            var obj = db.Customers.Find(CustomerID);
             ViewBag.CountryID = new SelectList(db.Countries, "CountryId", "CountryName");
             //var obj = new Customer();
             return PartialView("_addNewEmployee", obj);
@@ -40,6 +57,7 @@ namespace sample18082016.Controllers
 
         public ActionResult Create(string sortOrder, string currentFilter, string searchString, int? page)
         {
+
             ViewBag.CurrentSort = sortOrder;
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -50,20 +68,22 @@ namespace sample18082016.Controllers
             int pageSize = 3;
             int pageNumber = (page ?? 1);
 
+            System.Threading.Thread.Sleep(1000);
+
             //return View(await customers.ToListAsync());
             return PartialView("_CreateEmployee", customers.OrderBy(s => s.CustomerID).ToPagedList(pageNumber, pageSize));
 
             //if (Request.IsAjaxRequest())
             //{
             //    ViewBag.IsUpdate = false;
-                
+
             //}
             //else
 
             //    return View();
         }
 
-        
+
         public ActionResult View(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;

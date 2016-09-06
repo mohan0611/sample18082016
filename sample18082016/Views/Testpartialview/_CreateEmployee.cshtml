@@ -31,9 +31,11 @@
                     @Html.DisplayFor(modelItem => item.IsPrimaryCustomer)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
+                    <a class="editlink">Edit</a> | 
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |*@
                     @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+                    <input type="text" class="hiddencustomerid" value="@item.CustomerID" />
                 </td>
             </tr>
         }
@@ -127,8 +129,10 @@
                 //data: objectToPass,
                 success: function (data) {
                     //console.log(data);
+                    $('body').removeClass("loading");
                     $('#addnewemployeedivmodal').html(data);
                     $('#myModal').modal('show');
+                    $('#addnewemployee').val("Add");
                 }
             });
         });
@@ -158,6 +162,26 @@
 
         });
 
+
+        $(".editlink").click(function () {
+            console.log("clicked the edit link");
+            console.log($(this).parent().find(".hiddencustomerid").val());
+            $.ajax(
+            {
+                type: "POST", //HTTP POST Method
+                url: "/Testpartialview/edit", // Controller/View
+                data: { //Passing data
+                    CustomerID: $(this).parent().find(".hiddencustomerid").val() //Reading text box values using Jquery
+                },
+                success: function (data) {
+                    //console.log(data);
+                    $('body').removeClass("loading");
+                    $('#addnewemployeedivmodal').html(data);
+                    $('#myModal').modal('show');
+                    $('#addnewemployee').val("Save");
+                }
+            });
+        });
 
     });
 </script>

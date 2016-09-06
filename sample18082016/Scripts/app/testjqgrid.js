@@ -4,6 +4,7 @@
         url: "/TestJqgrid/GetCountryLists",
         datatype: 'json',
         mtype: 'Get',
+        styleUI: 'Bootstrap',
         colNames: ['CountryId', 'Country Name', 'Capital City'],
         colModel: [
             { key: false, hidden: true, name: 'CountryId', index: 'CountryId', editable: true },
